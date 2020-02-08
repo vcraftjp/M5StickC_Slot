@@ -151,7 +151,7 @@ void Slot::initShadow(int _shadowHeight) {
 	shadowHeight = _shadowHeight;
 	shadowBrigtness = (uint8_t*)malloc(shadowHeight);
 	buffer = (uint16_t*)malloc(SYM_WIDTH * shadowHeight * sizeof(uint16_t));
-	for (int i = 1; i < shadowHeight; i++) {
+	for (int i = 0; i < shadowHeight; i++) {
 		uint8_t b =  calcBrightness((float)i / shadowHeight);
 		shadowBrigtness[i] = b;
 		Serial.println(b);

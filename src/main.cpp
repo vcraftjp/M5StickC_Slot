@@ -1,6 +1,5 @@
 #include <M5StickC.h>
 #include "Slot.h"
-#include "Button.hpp"
 
 #ifndef _countof
 #define _countof(a) (sizeof(a) / sizeof(a[0]))
@@ -16,8 +15,6 @@ const int symbolIndices[] = { 2, 4, 5, 0, 3, 4, 1, 5, 3 };
 enum SlotsState { SLOTS_INIT, SLOTS_START, SLOTS_STOP = SLOT_COUNT + 1, SLOTS_FLUSH };
 int state = SLOTS_INIT;
 
-Button btnA(M5_BUTTON_HOME);
-
 //
 // setup()
 //
@@ -28,7 +25,6 @@ void setup() {
 	M5.Lcd.setSwapBytes(true);
 
 	M5.Axp.ScreenBreath(12);
-	btnA.begin();
 
 	Slot::initShadow();
 	Slot::setReel(symbolIndices, _countof(symbolIndices));
@@ -46,7 +42,9 @@ void loop() {
 	static unsigned long flushTick;
 	static int flushCount;
 
-	if (btnA.wasPressed()) {
+	M5.update();
+
+	if (M5.BtnA.wasPressed()) {
 		if (state == SLOTS_INIT) {
 			for (int i = 0; i < SLOT_COUNT; i++) {
 				slots[i].start();
